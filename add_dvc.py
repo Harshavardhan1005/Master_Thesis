@@ -41,6 +41,6 @@ if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
-    gps_raw_data(config_path=parsed_args.config)
-    #gps_cleaned_data(config_path=parsed_args.config)
+    #gps_raw_data(config_path=parsed_args.config)
+    gps_cleaned_data(config_path=parsed_args.config)
     #gps_preprocessed_data(config_path=parsed_args.config)

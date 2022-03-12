@@ -1,0 +1,20 @@
+schema: '2.0'
+stages:
+  load_and_clean_gps_data:
+    cmd: python src/load_and_clean_gps_data.py --config=params.yaml
+    deps:
+    - path: gps_data/FMS_signals_raw.csv
+      md5: 891e5120c689d280e00b0fe7fc9b4aee
+      size: 47074
+    - path: gps_data/raw_data
+      md5: 881b0ecdd8237f605b27590075a5c43b.dir
+      size: 546145932
+      nfiles: 321
+    - path: src/load_and_clean_gps_data.py
+      md5: 414e246c1e9542d17e302672e3ce9837
+      size: 3178
+    outs:
+    - path: gps_data/cleaned_data
+      md5: bd8d0a8b430cb5e5fbceeaa5a0679f68.dir
+      size: 962335207
+      nfiles: 4

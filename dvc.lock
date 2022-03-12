@@ -67,3 +67,62 @@ stages:
       md5: d0cd60b954319e15e995749270c36156.dir
       size: 331655
       nfiles: 1
+  merge_and_split_data:
+    cmd: python src/merge_and_split.py --config=params.yaml
+    deps:
+    - path: gps_data/merge_data/gps_data.csv
+      md5: ef2201161a138cca94bfc9614f39e816
+      size: 140331
+    - path: src/merge_and_split.py
+      md5: b9558f698e47c189ab3784139c1a0501
+      size: 1923
+    outs:
+    - path: merged_data/test.csv
+      md5: 90376c29fcda03b7be9870cc4d128781
+      size: 19553
+    - path: merged_data/train.csv
+      md5: a59810e9ba403f4a6a9da77f6976cb2c
+      size: 78196
+  train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - path: merged_data/test.csv
+      md5: 90376c29fcda03b7be9870cc4d128781
+      size: 19553
+    - path: merged_data/train.csv
+      md5: a59810e9ba403f4a6a9da77f6976cb2c
+      size: 78196
+    - path: src/train_and_evaluate.py
+      md5: 471148b6b770f9ea5d5f62eab1a0a8ac
+      size: 8147
+    params:
+      params.yaml:
+        estimators.RandomForest.params.max_depth: 8
+        estimators.RandomForest.params.min_samples_leaf: 2
+        estimators.RandomForest.params.min_samples_split: 2
+        estimators.RandomForest.params.n_estimators: 20
+        estimators.XGBoost.params.gamma: 1
+        estimators.XGBoost.params.learning_rate: 0.1
+        estimators.XGBoost.params.max_depth: 13
+        estimators.XGBoost.params.min_child_weight: 1
+        estimators.XGBoost.params.n_estimators: 90
+  log_final_model:
+    cmd: python src/log_final_model.py --config=params.yaml
+    deps:
+    - path: src/log_final_model.py
+      md5: 57131dab159b517cd1a3c35a3fe77dab
+      size: 4097
+    - path: src/train_and_evaluate.py
+      md5: 471148b6b770f9ea5d5f62eab1a0a8ac
+      size: 8147
+    params:
+      params.yaml:
+        estimators.RandomForest.params.max_depth: 8
+        estimators.RandomForest.params.min_samples_leaf: 2
+        estimators.RandomForest.params.min_samples_split: 2
+        estimators.RandomForest.params.n_estimators: 20
+        estimators.XGBoost.params.gamma: 1
+        estimators.XGBoost.params.learning_rate: 0.1
+        estimators.XGBoost.params.max_depth: 13
+        estimators.XGBoost.params.min_child_weight: 1
+        estimators.XGBoost.params.n_estimators: 90

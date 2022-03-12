@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Forecast Truck Travel Time
+{% endblock title %}
+
+
+{% block custom_css %}
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock custom_css %}
+
+
+{% block body %}
+<!-- nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light shadow fixed-top" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Forecast Truck Travel Time</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/Harshavardhan1005/Master_Thesis">source code</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <!-- nav bar ends -->
+
+    <div class="container-fluid masthead">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form method="POST">
+                        <!-- Input block-->
+                        <div class="form-group">
+                            <label for="translation">
+                                <blockquote class="blockquote">
+                                    <p class="mb-2">Enter the details as indicated:</p>
+                                </blockquote>
+                            </label>
+                            <textarea class="form-control" name="Week_Day" rows="1"
+                                placeholder="Week Day expected range 0 to 6"></textarea>
+                            <textarea class="form-control" name="Week" rows="1"
+                                placeholder="Week expected range 1 to 52"></textarea>
+                            <textarea class="form-control" name="Hour" rows="1"
+                                placeholder="Hours expected range 0 to 23"></textarea>
+                            <textarea class="form-control" name="Minutes" rows="1"
+                                placeholder="Minutes expected range 0 to 60"></textarea>
+                            <textarea class="form-control" name="Seconds" rows="1"
+                                placeholder="Seconds expected range 0 to 60"></textarea>
+                            <textarea class="form-control" name="speed_threshold" rows="1"
+                                placeholder="speed threshold expected range 0 to 1"></textarea>
+                            <textarea class="form-control" name="Clouds" rows="1"
+                                placeholder="clouds expected range 0 to 100"></textarea>
+                            <textarea class="form-control" name="Temp" rows="1"
+                                placeholder="Temp expected range 250 to 350"></textarea>
+                            <textarea class="form-control" name="Wind_deg" rows="1"
+                                placeholder="Wind deg expected range 0 to 360"></textarea>
+                            <textarea class="form-control" name="Wind_speed" rows="1"
+                                placeholder="Wind speed range 0 to 1"></textarea>
+                            <textarea class="form-control" name="Rain_1h" rows="1"
+                                placeholder="Rain 1h expected range 0 to 1"></textarea>
+                            <textarea class="form-control" name="Rain_3h" rows="1"
+                                placeholder="Rain 3h expected range 0 to 1"></textarea>
+                            <textarea class="form-control" name="Snow_1h" rows="1"
+                                placeholder="Snow 1h expected range 0 to 1"></textarea>
+                            <textarea class="form-control" name="Snow_3h" rows="1"
+                                placeholder="Snow 2h expected range 0 to 1"></textarea>
+
+                        </div>
+
+                        <!-- Select output language here. -->
+                        <div class="form-group">
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Predict</button></br>
+                        </br>
+                    </form>
+                    <!-- Translated text returned by the Translate API is rendered here. -->
+                </div>
+                <div class="col">
+                    <form>
+                        <div class="form-group">
+                            <label for="translation-result">
+
+                                <blockquote class="blockquote">
+                                    <p class="mb-2">Prediction:</p>
+                                </blockquote>
+
+                            </label>
+                            <textarea readonly class="form-control" id="exTextarea" rows="5">{{ response }}</textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% endblock body %}
+
+        {% block custom_js %}
+        <!-- Custom JS -->
+        <script src="{{ url_for('static', filename='script/index.js') }}"></script>
+        {% endblock custom_js %}

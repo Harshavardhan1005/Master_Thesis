@@ -1,0 +1,58 @@
+{
+    "Week_Day": {
+        "min": 0,
+        "max": 6
+    },
+    "Week": {
+        "min": 1,
+        "max": 52
+    },
+    "Hour": {
+        "min": 0,
+        "max": 23
+    },
+    "Minutes": {
+        "min": 0,
+        "max": 59
+    },
+    "Seconds": {
+        "min": 0,
+        "max": 59
+    },
+    "speed_threshold": {
+        "min": 0,
+        "max": 1
+    },
+    "Clouds": {
+        "min": 0,
+        "max": 100
+    },
+    "Temp": {
+        "min": 250,
+        "max": 350
+    },
+    "Wind_deg": {
+        "min": 0,
+        "max": 360
+    },
+    "Wind_speed": {
+        "min": 0,
+        "max": 1
+    },
+    "Rain_1h": {
+        "min": 0,
+        "max": 1
+    },
+    "Rain_3h": {
+        "min": 0,
+        "max": 1
+    },
+    "Snow_1h": {
+        "min": 0,
+        "max": 1
+    },
+    "Snow_3h": {
+        "min": 0,
+        "max": 1
+    }
+}

@@ -41,10 +41,29 @@ stages:
       size: 107721
       nfiles: 4
     - path: src/preprocess_weather_data.py
-      md5: 2760d01d21fba6f386635725c18a3870
-      size: 4829
+      md5: a7e6dcacf0349b879e3aec37c383262e
+      size: 4830
     outs:
     - path: gps_data/merge_data
       md5: d68be13adab3894c654c057f2d65d7c5.dir
       size: 140331
+      nfiles: 1
+  preprocess_weather_data:
+    cmd: python src/preprocess_weather_data.py --config=params.yaml
+    deps:
+    - path: src/preprocess_weather_data.py
+      md5: a7e6dcacf0349b879e3aec37c383262e
+      size: 4830
+    - path: weather_data/raw_data
+      md5: d7570902cf28f11b98a4235223c69109.dir
+      size: 1519204
+      nfiles: 3
+    outs:
+    - path: weather_data/cleaned_data
+      md5: 86736d9b9ad5a3e5e0409255a942829b.dir
+      size: 278856
+      nfiles: 1
+    - path: weather_data/preprocessed_data
+      md5: d0cd60b954319e15e995749270c36156.dir
+      size: 331655
       nfiles: 1

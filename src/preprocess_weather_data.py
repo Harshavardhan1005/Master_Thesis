@@ -38,7 +38,7 @@ def store_weather_data(config_path):
 
 def clean_weather_data(config_path):
     config = read_params(config_path)
-    store_weather_data(config_path=config_path)
+    #store_weather_data(config_path=config_path)
     weather_cleaned_data_source_path = config["data_source"]["weather_cleaned_data_source"]
     weather_cleaned_data_path = config["data_source"]["weather_cleaned_data"]
     weather_raw_data_source_path = config["data_source"]["weather_raw_data_source"]

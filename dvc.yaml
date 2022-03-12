@@ -23,3 +23,12 @@ stages:
       - gps_data/preprocessed_data/plant2-plant1
     outs:
       - gps_data/merge_data
+
+  preprocess_weather_data:
+    cmd: python src/preprocess_weather_data.py --config=params.yaml
+    deps:
+      - src/preprocess_weather_data.py
+      - weather_data/raw_data
+    outs:
+      - weather_data/preprocessed_data
+      - weather_data/cleaned_data

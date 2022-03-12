@@ -4,7 +4,6 @@ import os
 import numpy as np
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
-import statistics
 from glob import glob
 from tqdm import tqdm
 import argparse
@@ -130,17 +129,16 @@ def travel_time_information(new_df):
     final_df2['start_plant2'] = start2
     final_df2['end_plant1'] = end1
 
-    final_df1['travel_time(1-2)'] = final_df1['end_plant2'] - final_df1['start_plant1']
-    final_df2['travel_time(2-1)'] = final_df2['end_plant1'] - final_df2['start_plant2']
+    final_df1['travel_time'] = final_df1['end_plant2'] - final_df1['start_plant1']
+    final_df2['travel_time'] = final_df2['end_plant1'] - final_df2['start_plant2']
 
-    final_df1['travel_time(1-2)'] = final_df1['travel_time(1-2)'].apply(lambda x: x.total_seconds() / 60)
-    final_df2['travel_time(2-1)'] = final_df2['travel_time(2-1)'].apply(lambda x: x.total_seconds() / 60)
+    final_df1['travel_time'] = final_df1['travel_time'].apply(lambda x: x.total_seconds() / 60)
+    final_df2['travel_time'] = final_df2['travel_time'].apply(lambda x: x.total_seconds() / 60)
 
     return final_df1,final_df2
 
 def fetch_gps_and_speed_infromation(config_path,final_df1,final_df2,df):
-    config = read_params(config_path)
-    speed_threshold =  config["base"]["speed_threshold"]
+
     print('*****************************************************************************************************')
     print('Fetching GPS and Speed Information')
     print('*****************************************************************************************************')
@@ -160,10 +158,10 @@ def fetch_gps_and_speed_infromation(config_path,final_df1,final_df2,df):
         lambda x: df[(df['Time_stamp'].between(x['start_plant1'], x['end_plant2']))][
             'WheelBasedVehicleSpeed'].values,
         axis=1)
-    final_df1['speed_threshold'] = final_df1['speed_1_2'].apply(
-        lambda x: statistics.mean([1 if float(i) < speed_threshold else 0 for i in x]))
-    final_df2['speed_threshold'] = final_df2['speed_2_1'].apply(
-        lambda x: statistics.mean([1 if float(i) < speed_threshold else 0 for i in x]))
+    final_df1['Average_Speed'] = final_df1['speed_1_2'].progress_apply(
+        lambda x: np.mean([i for i in x]))
+    final_df2['Average_Speed'] = final_df2['speed_2_1'].progress_apply(
+        lambda x: np.mean([i for i in x]))
 
 
 def fetch_route_information(config_path,final_df1,final_df2,name):

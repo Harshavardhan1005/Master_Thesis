@@ -2,9 +2,7 @@ import os
 
 import yaml
 import pandas as pd
-import numpy as np
 from glob import glob
-from tqdm import tqdm
 import argparse
 
 def read_params(config_path):
@@ -24,7 +22,7 @@ def merge_gps_data(config_path):
         df_gps = pd.concat([df,df_gps])
 
     df_gps = df_gps[df_gps['route_2_1'] == 1]
-    df_gps = df_gps[df_gps['travel_time(2-1)'] < 20]
+    df_gps = df_gps[df_gps['travel_time'] < 20]
 
     df_gps['start_plant2'] = pd.to_datetime(df_gps['start_plant2'],infer_datetime_format=True)
     df_gps['Week_Day'] = df_gps['start_plant2'].dt.weekday

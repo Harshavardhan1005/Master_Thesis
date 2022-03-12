@@ -1,8 +1,7 @@
 base:
   project: Travel-Time-Prediction
   random_state: 42
-  target_col: travel_time(2-1)
-  speed_threshold: 5
+  target_col: travel_time
 
 data_source:
   gps_raw_data: gps_data/raw_data
@@ -15,10 +14,10 @@ data_source:
   gps_cleaned_data_cols: ['Time_stamp','lat','lon','WheelBasedVehicleSpeed']
 
   gps_preprocessed_data1: gps_data/preprocessed_data/plant1-plant2
-  gps_preprocessed_data1_cols: [ 'start_plant1','end_plant2','travel_time(1-2)','route_1_2','speed_threshold' ]
+  gps_preprocessed_data1_cols: [ 'start_plant1','end_plant2','travel_time','route_1_2','Average_Speed']
 
   gps_preprocessed_data2: gps_data/preprocessed_data/plant2-plant1
-  gps_preprocessed_data2_cols: [ 'start_plant2','end_plant1','travel_time(2-1)','route_2_1','speed_threshold' ]
+  gps_preprocessed_data2_cols: [ 'start_plant2','end_plant1','travel_time','route_2_1','Average_Speed' ]
 
   gps_merge_data: gps_data/merge_data
 

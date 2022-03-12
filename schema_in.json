@@ -19,9 +19,9 @@
         "min": 0,
         "max": 59
     },
-    "speed_threshold": {
+    "Average_speed": {
         "min": 0,
-        "max": 1
+        "max": 500
     },
     "Clouds": {
         "min": 0,

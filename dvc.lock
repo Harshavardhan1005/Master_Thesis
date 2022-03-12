@@ -18,3 +18,18 @@ stages:
       md5: bd8d0a8b430cb5e5fbceeaa5a0679f68.dir
       size: 962335207
       nfiles: 4
+  preprocess_gps_data:
+    cmd: python src/preprocess_gps_data.py --config=params.yaml
+    deps:
+    - path: gps_data/cleaned_data
+      md5: bd8d0a8b430cb5e5fbceeaa5a0679f68.dir
+      size: 962335207
+      nfiles: 4
+    - path: src/preprocess_gps_data.py
+      md5: b44eae4315a610decd72df5f884aa766
+      size: 10434
+    outs:
+    - path: gps_data/preprocessed_data
+      md5: 66697975cb24ae804b78da7294d8f1ba.dir
+      size: 215078
+      nfiles: 8

@@ -7,3 +7,11 @@ stages:
       - gps_data/raw_data
     outs:
       - gps_data/cleaned_data
+
+  preprocess_gps_data:
+    cmd: python src/preprocess_gps_data.py --config=params.yaml
+    deps:
+      - src/preprocess_gps_data.py
+      - gps_data/cleaned_data
+    outs:
+      - gps_data/preprocessed_data

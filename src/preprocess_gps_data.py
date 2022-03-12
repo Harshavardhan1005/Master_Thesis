@@ -222,8 +222,8 @@ def fetch_route_information(config_path,final_df1,final_df2,name):
     os.makedirs(gps_preprocessed_data1_path,exist_ok=True)
     os.makedirs(gps_preprocessed_data2_path,exist_ok=True)
 
-    final_df1.to_csv(gps_preprocessed_data1_path + '/' + str(name) + '(1-2).csv', sep=",", index=False)
-    final_df2.to_csv(gps_preprocessed_data2_path + '/' + str(name) + '(2-1).csv', sep=",", index=False)
+    final_df1.to_csv(gps_preprocessed_data1_path + '/' + str(name) + '.csv', sep=",", index=False)
+    final_df2.to_csv(gps_preprocessed_data2_path + '/' + str(name) + '.csv', sep=",", index=False)
 
 
 def preprocess_gps_data(config_path):

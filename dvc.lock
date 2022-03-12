@@ -33,3 +33,18 @@ stages:
       md5: 66697975cb24ae804b78da7294d8f1ba.dir
       size: 215078
       nfiles: 8
+  merge_gps_data:
+    cmd: python src/merge_gps_data.py --config=params.yaml
+    deps:
+    - path: gps_data/preprocessed_data/plant2-plant1
+      md5: 6290fb1428b94327704b9a96483eb925.dir
+      size: 107721
+      nfiles: 4
+    - path: src/preprocess_weather_data.py
+      md5: 2760d01d21fba6f386635725c18a3870
+      size: 4829
+    outs:
+    - path: gps_data/merge_data
+      md5: d68be13adab3894c654c057f2d65d7c5.dir
+      size: 140331
+      nfiles: 1

@@ -15,3 +15,11 @@ stages:
       - gps_data/cleaned_data
     outs:
       - gps_data/preprocessed_data
+
+  merge_gps_data:
+    cmd: python src/merge_gps_data.py --config=params.yaml
+    deps:
+      - src/preprocess_weather_data.py
+      - gps_data/preprocessed_data/plant2-plant1
+    outs:
+      - gps_data/merge_data

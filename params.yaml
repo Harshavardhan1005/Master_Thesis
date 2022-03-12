@@ -1,0 +1,78 @@
+base:
+  project: Travel-Time-Prediction
+  random_state: 42
+  target_col: travel_time(2-1)
+  speed_threshold: 5
+
+data_source:
+  gps_raw_data: gps_data/raw_data
+  gps_raw_data_cols: [ 'ts_msg_usec','timedelta_usec','key','value2','value' ]
+
+  fms_data_source: gps_data/FMS_signals_raw.csv
+  fms_data_cols: [ 'Code', 'Name' ]
+
+  gps_cleaned_data: gps_data/cleaned_data
+  gps_cleaned_data_cols: ['Time_stamp','lat','lon','WheelBasedVehicleSpeed']
+
+  gps_preprocessed_data1: gps_data/preprocessed_data/plant1-plant2
+  gps_preprocessed_data1_cols: [ 'start_plant1','end_plant2','travel_time(1-2)','route_1_2','speed_threshold' ]
+
+  gps_preprocessed_data2: gps_data/preprocessed_data/plant2-plant1
+  gps_preprocessed_data2_cols: [ 'start_plant2','end_plant1','travel_time(2-1)','route_2_1','speed_threshold' ]
+
+  gps_merge_data: gps_data/merge_data
+
+  weather_raw_data: weather_data/raw_data
+  weather_raw_data_source: weather_data/raw_data/weather.csv
+
+  weather_cleaned_data: weather_data/cleaned_data
+  weather_cleaned_data_source: weather_data/cleaned_data/cleaned_weather.csv
+
+  # Give only past dates
+  weather_start: 1630447201     # Wed Sep 01 2021 00:00:01 GMT+0200 (Central European Summer Time)
+  weather_end: 1646089201       # Tue Mar 01 2022 00:00:01 GMT+0100 (Central European Standard Time)
+  weather_preprocessed_data: weather_data/preprocessed_data
+  data_merge: merged_data
+
+load_data:
+  gps_dataset_csv: gps_data/merge_data/gps_data.csv
+  weather_dataset_csv: weather_data/preprocessed_data/weather.csv
+
+split_data:
+  train_path: merged_data/train.csv
+  test_path: merged_data/test.csv
+  test_size: 0.2
+
+estimators:
+  RandomForest:
+    params:
+      n_estimators: 20                      # [10,20,30,40,5060,70,80,90,100]
+      max_depth: 8                          # [7,8,9,10,11,12]
+      min_samples_split: 2
+      min_samples_leaf: 2
+
+  XGBoost:
+    params:
+      n_estimators: 90                       # [80,90,100]
+      max_depth: 13                         # [12,13,14,15]
+      min_child_weight: 1                   # [1,2]
+      gamma: 1                              # [1,5]
+      learning_rate: 0.1                    # [0.1,0.05,0.01]
+
+  LSTM:
+    params:
+      epoch: 100                             #[50,100,150,200]
+      length: 1                             #[1,2,3,4,5,6,7,8,9,10,11,12]
+
+webapp_model_dir: models/model.joblib
+
+mlflow_config:
+  artifacts_dir: artifacts
+  experiment_name1: Forecasting Trucks Travel Time (Random Forest)
+  experiment_name2: Forecasting Trucks Travel Time (XGBoost)
+  experiment_name3: Forecasting Trucks Travel Time (LSTM)
+  run_name: mlops
+  registered_model_name1: RandomForest_forecasting_model
+  registered_model_name2: XGBoost_forecasting_model
+  registered_model_name3: LSTM_forecasting_model
+  remote_server_uri: http://0.0.0.0:1234

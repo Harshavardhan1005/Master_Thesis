@@ -1,0 +1,4 @@
+outs:
+- md5: c72367396f06cbd83fd4e1ba862fe93f
+  size: 328940
+  path: weather.csv

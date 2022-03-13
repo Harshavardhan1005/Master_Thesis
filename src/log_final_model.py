@@ -31,7 +31,7 @@ def log_production_model(config_path):
 
     runs = mlflow.search_runs(experiment_ids='1')
     lowest = list(runs["metrics.mape"].sort_values(ascending=True))[0]
-    lowest_run_id = runs[runs["metrics.mae"] == lowest]["run_id"]
+    lowest_run_id = runs[runs["metrics.mape"] == lowest]["run_id"]
 
     client = MlflowClient()
     for mv in client.search_model_versions(f"name='{model_name1}'"):
@@ -58,8 +58,8 @@ def log_production_model(config_path):
             )
 
     runs = mlflow.search_runs(experiment_ids='2')
-    lowest = list(runs["metrics.mae"].sort_values(ascending=True))[0]
-    lowest_run_id = runs[runs["metrics.mae"] == lowest]["run_id"]
+    lowest = list(runs["metrics.mape"].sort_values(ascending=True))[0]
+    lowest_run_id = runs[runs["metrics.mape"] == lowest]["run_id"]
 
     for mv in client.search_model_versions(f"name='{model_name2}'"):
         mv = dict(mv)
@@ -83,8 +83,8 @@ def log_production_model(config_path):
             )
 
     runs = mlflow.search_runs(experiment_ids='3')
-    lowest = list(runs["metrics.mae"].sort_values(ascending=True))[0]
-    lowest_run_id = runs[runs["metrics.mae"] == lowest]["run_id"]
+    lowest = list(runs["metrics.mape"].sort_values(ascending=True))[0]
+    lowest_run_id = runs[runs["metrics.mape"] == lowest]["run_id"]
 
     for mv in client.search_model_versions(f"name='{model_name3}'"):
         mv = dict(mv)

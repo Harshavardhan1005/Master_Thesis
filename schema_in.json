@@ -19,7 +19,7 @@
         "min": 0,
         "max": 59
     },
-    "Average_speed": {
+    "Average_Speed": {
         "min": 0,
         "max": 500
     },

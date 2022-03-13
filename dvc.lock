@@ -74,15 +74,15 @@ stages:
       md5: d3017add53962890aa593675987a5cd0
       size: 139755
     - path: src/merge_and_split.py
-      md5: aca6b51332235e660390b6807fb53e99
-      size: 1916
+      md5: e39348aa487d816c8a250b474a033c46
+      size: 1949
     outs:
     - path: merged_data/test.csv
-      md5: 2d4515a631f59a395d1a1259176466c8
-      size: 19485
+      md5: 0ba9192e99f5ad3762efffac5a061ac4
+      size: 13212
     - path: merged_data/train.csv
-      md5: ff7f8f100a9d22138bb53c84aa5b83fb
-      size: 77646
+      md5: 12ad7fad995e6bd9319314423354cfae
+      size: 53108
   train_and_evaluate:
     cmd: python src/train_and_evaluate.py --config=params.yaml
     deps:

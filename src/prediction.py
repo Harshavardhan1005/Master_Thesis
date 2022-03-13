@@ -64,7 +64,7 @@ def form_response(dict_request):
     if validate_input(dict_request):
         data = dict_request.values()
         data = [list(map(float, data))]
-        response = predict(data)
+        response = np.round(predict(data),1)
         return response
 
 

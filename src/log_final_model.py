@@ -30,7 +30,7 @@ def log_production_model(config_path):
     mlflow.set_tracking_uri(remote_server_uri)
 
     runs = mlflow.search_runs(experiment_ids='1')
-    lowest = list(runs["metrics.mae"].sort_values(ascending=True))[0]
+    lowest = list(runs["metrics.mape"].sort_values(ascending=True))[0]
     lowest_run_id = runs[runs["metrics.mae"] == lowest]["run_id"]
 
     client = MlflowClient()
@@ -107,10 +107,9 @@ def log_production_model(config_path):
                 stage="Staging"
             )
 
-    best_model = df.iloc[df['Score'].astype(float).idxmin()]['Model_Source']
+    best_model = df.iloc[df['Score'][0:-1].astype(float).idxmin()]['Model_Source']
 
     loaded_model = mlflow.pyfunc.load_model(best_model)
-
     model_path = config["webapp_model_dir"]
     joblib.dump(loaded_model, model_path)
 

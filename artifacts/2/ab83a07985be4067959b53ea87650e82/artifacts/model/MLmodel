@@ -1,0 +1,14 @@
+artifact_path: model
+flavors:
+  python_function:
+    env: conda.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    python_version: 3.7.11
+  sklearn:
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.0.2
+model_uuid: 84693d6e31e74361a0cb923e5777ae0c
+run_id: ab83a07985be4067959b53ea87650e82
+utc_time_created: '2022-03-12 23:43:51.524777'

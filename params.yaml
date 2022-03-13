@@ -45,23 +45,28 @@ split_data:
 estimators:
   RandomForest:
     params:
-      n_estimators: 20                      # [10,20,30,40,5060,70,80,90,100]
-      max_depth: 8                          # [7,8,9,10,11,12]
-      min_samples_split: 2
-      min_samples_leaf: 2
+      n_estimators:         [10,20,30,40,50,60,70,80,90,100]
+      max_depth:            [7,8,9,10,11,12,13,14,15]
+      min_samples_split:    [2]
+      min_samples_leaf:     [2]
+    rf_params_accuracy:     reports/rf_params_accuracy.csv
+
 
   XGBoost:
     params:
-      n_estimators: 90                       # [80,90,100]
-      max_depth: 13                         # [12,13,14,15]
-      min_child_weight: 1                   # [1,2]
-      gamma: 1                              # [1,5]
-      learning_rate: 0.1                    # [0.1,0.05,0.01]
+      n_estimators:           [50,60,70,80,90,100]
+      max_depth:              [10,11,12,13,14,15]
+      min_child_weight:       [1,2]
+      gamma:                  [1,5]
+      learning_rate:          [0.1,0.05,0.01]
+    xgb_params_accuracy:  reports/xgb_params_accuracy.csv
+
 
   LSTM:
     params:
-      epoch: 100                             #[50,100,150,200]
-      length: 1                             #[1,2,3,4,5,6,7,8,9,10,11,12]
+      epoch:                [50,100,150,200,250,300]
+      length:               [1,2,3,4,5,6,7,8,9,10,11,12]
+    lstm_params_accuracy:    reports/lstm_params_accuracy.csv
 
 webapp_model_dir: models/model.joblib
 

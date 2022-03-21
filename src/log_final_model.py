@@ -16,7 +16,7 @@ def read_params(config_path):
     return config
 
 
-def log_production_model(config_path):
+def log_final_model(config_path):
     config = read_params(config_path)
     df = pd.DataFrame(columns=['Model_Source', 'Score'])
 
@@ -49,6 +49,10 @@ def log_production_model(config_path):
                 version=current_version,
                 stage="Production"
             )
+            rf_model_path = config["rf_model_dir"]
+            model = mlflow.pyfunc.load_model(logged_model1)
+            joblib.dump(model, rf_model_path)
+
         else:
             current_version = mv["version"]
             client.transition_model_version_stage(
@@ -74,6 +78,9 @@ def log_production_model(config_path):
                 version=current_version,
                 stage="Production"
             )
+            xgb_model_path = config["xgb_model_dir"]
+            model = mlflow.pyfunc.load_model(logged_model2)
+            joblib.dump(model, xgb_model_path)
         else:
             current_version = mv["version"]
             client.transition_model_version_stage(
@@ -99,6 +106,9 @@ def log_production_model(config_path):
                 version=current_version,
                 stage="Production"
             )
+            lstm_model_path = config["lstm_model_dir"]
+            model = mlflow.pyfunc.load_model(logged_model3)
+            joblib.dump(model, lstm_model_path)
         else:
             current_version = mv["version"]
             client.transition_model_version_stage(
@@ -118,4 +128,4 @@ if __name__ == '__main__':
     args = argparse.ArgumentParser()
     args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
-    log_production_model(config_path=parsed_args.config)
+    log_final_model(config_path=parsed_args.config)

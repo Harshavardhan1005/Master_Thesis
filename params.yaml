@@ -33,6 +33,7 @@ data_source:
   weather_preprocessed_data: weather_data/preprocessed_data
   data_merge: merged_data
 
+
 load_data:
   gps_dataset_csv: gps_data/merge_data/gps_data.csv
   weather_dataset_csv: weather_data/preprocessed_data/weather.csv
@@ -40,22 +41,24 @@ load_data:
 split_data:
   train_path: merged_data/train.csv
   test_path: merged_data/test.csv
+  hybrid_train_path: merged_data/hybrid_train.csv
+  hybrid_test_path: merged_data/hybrid_test.csv
   test_size: 0.2
 
 estimators:
   RandomForest:
     params:
-      n_estimators:         [10,20,30,40,50,60,70,80,90,100]
-      max_depth:            [7,8,9,10,11,12,13,14,15]
-      min_samples_split:    [2]
-      min_samples_leaf:     [2]
+      n_estimators:         [110,120,130,140,150,160,170,180,190,200]
+      max_depth:            [7,8,9,10,11,12,13,14,15,16,17]
+      min_samples_split:    [2,3,4]
+      min_samples_leaf:     [2,3,4]
     rf_params_accuracy:     reports/rf_params_accuracy.csv
 
 
   XGBoost:
     params:
-      n_estimators:           [50,60,70,80,90,100]
-      max_depth:              [10,11,12,13,14,15]
+      n_estimators:           [110,120,130,140,150,160,170,180,190,200]
+      max_depth:              [10,11,12,13,14,15,16,17]
       min_child_weight:       [1,2]
       gamma:                  [1,5]
       learning_rate:          [0.1,0.05,0.01]
@@ -64,19 +67,31 @@ estimators:
 
   LSTM:
     params:
-      epoch:                [50,100,150,200,250,300]
+      epoch:                [200,250,300,350,450,500]
       length:               [1,2,3,4,5,6,7,8,9,10,11,12]
     lstm_params_accuracy:    reports/lstm_params_accuracy.csv
 
 webapp_model_dir: models/model.joblib
+
+rf_model_dir: models/rf_model.joblib
+xgb_model_dir: models/xgb_model.joblib
+lstm_model_dir: models/lstm_model.joblib
+rf_lstm_model_dir: models/rf_lstm_model.joblib
+xgb_lstm_model_dir: models/xgb_lstm_model.joblib
 
 mlflow_config:
   artifacts_dir: artifacts
   experiment_name1: Forecasting Trucks Travel Time (Random Forest)
   experiment_name2: Forecasting Trucks Travel Time (XGBoost)
   experiment_name3: Forecasting Trucks Travel Time (LSTM)
+  experiment_name4: Forecasting Trucks Travel Time (Hybrid1)
+  experiment_name5: Forecasting Trucks Travel Time (Hybrid2)
+  experiment_name6: Forecasting Trucks Travel Time (Hybrid3)
   run_name: mlops
   registered_model_name1: RandomForest_forecasting_model
   registered_model_name2: XGBoost_forecasting_model
   registered_model_name3: LSTM_forecasting_model
+  registered_model_name4: RF_LSTM_forecasting_model
+  registered_model_name5: XGB_LSTM_forecasting_model
+  registered_model_name6: RF_XGB_forecasting_model
   remote_server_uri: http://0.0.0.0:1234

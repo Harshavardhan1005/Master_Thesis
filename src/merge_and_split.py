@@ -48,6 +48,7 @@ def merge_and_split_data(config_path):
     train.to_csv(train_data_path, sep=",", index=False, encoding="utf-8")
     test.to_csv(test_data_path, sep=",", index=False, encoding="utf-8")
 
+
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument("--config", default="params.yaml")

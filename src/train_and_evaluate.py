@@ -1,5 +1,4 @@
 import os
-
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
@@ -56,7 +55,7 @@ def train_and_evaluate(config_path):
     mlflow_config = config["mlflow_config"]
     remote_server_uri = mlflow_config["remote_server_uri"]
     mlflow.set_tracking_uri(remote_server_uri)
-    '''
+
     print('****************************************************************************************************')
     print('RandomForest Model')
     print('****************************************************************************************************')
@@ -125,7 +124,7 @@ def train_and_evaluate(config_path):
 
     rf_params_accuracy_csv.reset_index(drop=True, inplace=True)
     rf_params_accuracy_csv.to_csv(rf_params_accuracy, index=False)
-    '''
+
     print('****************************************************************************************************')
     print('XGBoost Model')
     print('****************************************************************************************************')
@@ -200,7 +199,6 @@ def train_and_evaluate(config_path):
         xgb_params_accuracy_csv.reset_index(drop=True, inplace=True)
         xgb_params_accuracy_csv.to_csv(xgb_params_accuracy, index=False)
 
-
     print('****************************************************************************************************')
     print('LSTM Model')
     print('****************************************************************************************************')
@@ -212,7 +210,7 @@ def train_and_evaluate(config_path):
     lstm_params_accuracy = config["estimators"]['LSTM']["lstm_params_accuracy"]
 
     lstm_params_accuracy_csv = pd.DataFrame(
-        columns=['length', 'epochs', 'rmse', 'mae', 'mape'])
+        columns=['length', 'epochs', 'rmse', 'mae', 'mape', 'loss'])
 
     # Scaling the data
     scaler = MinMaxScaler()
@@ -225,35 +223,21 @@ def train_and_evaluate(config_path):
         with mlflow.start_run(run_name=mlflow_config["run_name"]) as mlops_run:
 
             train_generator = TimeseriesGenerator(scaled_train, train_y.values, length=x[0], batch_size=1)
+            test_generator = TimeseriesGenerator(scaled_test, test_y.values, length=x[0], batch_size=1)
 
             model = Sequential()
             model.add(LSTM(50, activation='relu', return_sequences=True, input_shape=(x[0], 14)))
             model.add(Dropout(0.2))
             model.add(LSTM(50, activation='relu'))
             model.add(Dense(1))
-            model.compile(optimizer='adam', loss='mse')
+            model.compile(optimizer='adam', loss='mae')
 
-            model.fit(train_generator, epochs=x[1])
+            history = model.fit_generator(train_generator, epochs=x[1])
+            test_predictions = model.predict(test_generator)
 
-            # Test data predictions
-            test_predictions = []
+            (rmse, mae, mape) = eval_metrics(test_y.iloc[x[0]:], pd.DataFrame(test_predictions))
 
-            # last n_input points from the training set
-            first_eval_batch = scaled_train[-x[0]:]
-            # reshape this to the format of RNN (same format as TimeseriesGeneration)
-            current_batch = first_eval_batch.reshape((1, x[0], 14))
-
-            for i in range(len(test_x)):
-                # One timestep ahead of historical 12 points
-                current_pred = model.predict(current_batch)[0]
-                # store that prediction
-                test_predictions.append(current_pred)
-
-                # update the current batch to include prediction
-                current_batch = np.append(current_batch[:, 1:, :], [[scaled_test[i]]], axis=1)
-
-            (rmse, mae, mape) = eval_metrics(test_y, test_predictions)
-
+            print(rmse, mae, mape)
             mlflow.log_param("length", x[0])
             mlflow.log_param("epochs", x[1])
 
@@ -267,20 +251,23 @@ def train_and_evaluate(config_path):
                 mlflow.sklearn.log_model(
                     model,
                     "model",
-                    registered_model_name=mlflow_config["registered_model_name2"])
+                    registered_model_name=mlflow_config["registered_model_name3"])
             else:
-                mlflow.sklearn.load_model(xgb, "model")
+                mlflow.sklearn.load_model(model, "model")
 
             mlflow.end_run()
 
             lstm_params_accuracy_one = pd.DataFrame(index=range(1),
-                                                  columns=['length', 'epochs','rmse', 'mae', 'mape'])
+                                                  columns=['length', 'epochs','rmse', 'mae', 'mape' , 'loss'])
 
-            lstm_params_accuracy_one.loc[:, 'n_estimators'] = x[0]
-            lstm_params_accuracy_one.loc[:, 'max_depth'] = x[1]
+            lstm_params_accuracy_one.loc[:, 'length'] = x[0]
+            lstm_params_accuracy_one.loc[:, 'epochs'] = x[1]
             lstm_params_accuracy_one.loc[:, 'rmse'] = rmse
             lstm_params_accuracy_one.loc[:, 'mae'] = mae
             lstm_params_accuracy_one.loc[:, 'mape'] = mape
+            lstm_params_accuracy_one.loc[:, 'loss'] = str(history.history['loss'])
+
+
             lstm_params_accuracy_csv = lstm_params_accuracy_csv.append(lstm_params_accuracy_one)
 
     lstm_params_accuracy_csv.reset_index(drop=True, inplace=True)

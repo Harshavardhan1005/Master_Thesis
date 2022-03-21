@@ -8,23 +8,24 @@ from glob import glob
 from tqdm import tqdm
 import argparse
 import warnings
+
 warnings.filterwarnings('ignore')
 
 tqdm.pandas(desc="Progress!")
+
 
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
-def truck_position(df,name):
 
-    plant_1 = Polygon( [(9.489763, 47.660213), (9.491629, 47.661182), (9.492552, 47.660907), (9.494827, 47.660633),
-              (9.497251, 47.658797), (9.490556, 47.655126), (9.487123, 47.653854), (9.483626, 47.655834),
-              (9.485106, 47.657482), (9.48766, 47.659231), (9.489763, 47.660213)])
+def truck_position(df, name):
+    plant_1 = Polygon([(9.489763, 47.660213), (9.491629, 47.661182), (9.492552, 47.660907), (9.494827, 47.660633),
+                       (9.497251, 47.658797), (9.490556, 47.655126), (9.487123, 47.653854), (9.483626, 47.655834),
+                       (9.485106, 47.657482), (9.48766, 47.659231), (9.489763, 47.660213)])
     plant_2 = Polygon([(9.466138, 47.667208), (9.46352, 47.667251), (9.462512, 47.661471), (9.464314, 47.658335),
-              (9.473004, 47.658581), (9.473948, 47.662439), (9.471889, 47.664925), (9.466138, 47.667208)])
-
+                       (9.473004, 47.658581), (9.473948, 47.662439), (9.471889, 47.664925), (9.466138, 47.667208)])
 
     location = []
     logic = []
@@ -36,7 +37,7 @@ def truck_position(df,name):
     print('Finding the position of the truck')
     print('*****************************************************************************************************')
 
-    for row in tqdm(df.to_dict('records'),desc=name):
+    for row in tqdm(df.to_dict('records'), desc=name):
         if plant_2.contains(Point(row['lon'], row['lat'])):
             if flag == 0:
                 logic.append(1)
@@ -68,6 +69,7 @@ def truck_position(df,name):
 
     return df
 
+
 def travel_time_less_3(new_df):
     indexes = []
     for index, row in new_df.iterrows():
@@ -81,8 +83,8 @@ def travel_time_less_3(new_df):
     new_df.reset_index(drop=True, inplace=True)
     return new_df
 
-def travel_time_information(new_df):
 
+def travel_time_information(new_df):
     flag1 = 0
     flag2 = 1
     flag3 = 0
@@ -123,6 +125,7 @@ def travel_time_information(new_df):
                 flag4 = 1
                 flag3 = 0
             continue
+
     final_df1['start_plant1'] = start1
     final_df1['end_plant2'] = end2
 
@@ -135,10 +138,10 @@ def travel_time_information(new_df):
     final_df1['travel_time'] = final_df1['travel_time'].apply(lambda x: x.total_seconds() / 60)
     final_df2['travel_time'] = final_df2['travel_time'].apply(lambda x: x.total_seconds() / 60)
 
-    return final_df1,final_df2
+    return final_df1, final_df2
 
-def fetch_gps_and_speed_infromation(config_path,final_df1,final_df2,df):
 
+def fetch_gps_and_speed_infromation(config_path, final_df1, final_df2, df):
     print('*****************************************************************************************************')
     print('Fetching GPS and Speed Information')
     print('*****************************************************************************************************')
@@ -164,7 +167,7 @@ def fetch_gps_and_speed_infromation(config_path,final_df1,final_df2,df):
         lambda x: np.mean([i for i in x]))
 
 
-def fetch_route_information(config_path,final_df1,final_df2,name):
+def fetch_route_information(config_path, final_df1, final_df2, name):
     config = read_params(config_path)
     gps_preprocessed_data1_path = config["data_source"]["gps_preprocessed_data1"]
     gps_preprocessed_data2_path = config["data_source"]["gps_preprocessed_data2"]
@@ -172,14 +175,14 @@ def fetch_route_information(config_path,final_df1,final_df2,name):
     gps_preprocessed_data2_cols = config["data_source"]["gps_preprocessed_data2_cols"]
     routes_2_1 = []
     routes_1_2 = []
-    route_1= Polygon([(9.484763, 47.658797), (9.481587, 47.660994), (9.478283, 47.663277), (9.482145, 47.664867),
-              (9.487467, 47.661168), (9.484763, 47.658797)])
-    route_2= Polygon([(9.474764, 47.658277), (9.4806, 47.658971), (9.481115, 47.657815), (9.475107, 47.656832),
-              (9.474764, 47.658277)])
-    route_3= Polygon([(9.485664, 47.665792), (9.490042, 47.668624), (9.496651, 47.665503), (9.497509, 47.661977),
-              (9.494247, 47.660763), (9.485664, 47.665792)])
-    route_4= Polygon([(9.475193, 47.669665), (9.476137, 47.665908), (9.48266, 47.666312), (9.482231, 47.669896),
-              (9.475193, 47.669665)])
+    route_1 = Polygon([(9.484763, 47.658797), (9.481587, 47.660994), (9.478283, 47.663277), (9.482145, 47.664867),
+                       (9.487467, 47.661168), (9.484763, 47.658797)])
+    route_2 = Polygon([(9.474764, 47.658277), (9.4806, 47.658971), (9.481115, 47.657815), (9.475107, 47.656832),
+                       (9.474764, 47.658277)])
+    route_3 = Polygon([(9.485664, 47.665792), (9.490042, 47.668624), (9.496651, 47.665503), (9.497509, 47.661977),
+                       (9.494247, 47.660763), (9.485664, 47.665792)])
+    route_4 = Polygon([(9.475193, 47.669665), (9.476137, 47.665908), (9.48266, 47.666312), (9.482231, 47.669896),
+                       (9.475193, 47.669665)])
 
     for index, row in final_df2.iterrows():
         for i in range(len(final_df2['GPS_2_1_lat'][index])):
@@ -217,8 +220,8 @@ def fetch_route_information(config_path,final_df1,final_df2,name):
     final_df1 = final_df1[gps_preprocessed_data1_cols]
     final_df2 = final_df2[gps_preprocessed_data2_cols]
 
-    os.makedirs(gps_preprocessed_data1_path,exist_ok=True)
-    os.makedirs(gps_preprocessed_data2_path,exist_ok=True)
+    os.makedirs(gps_preprocessed_data1_path, exist_ok=True)
+    os.makedirs(gps_preprocessed_data2_path, exist_ok=True)
 
     final_df1.to_csv(gps_preprocessed_data1_path + '/' + str(name) + '.csv', sep=",", index=False)
     final_df2.to_csv(gps_preprocessed_data2_path + '/' + str(name) + '.csv', sep=",", index=False)
@@ -230,29 +233,23 @@ def preprocess_gps_data(config_path):
     gps_cleaned_data_path = config["data_source"]["gps_cleaned_data"]
     gps_cleaned_data_cols = config["data_source"]["gps_cleaned_data_cols"]
 
-
     for path in np.sort(glob(gps_cleaned_data_path + '/*csv')):
-
-
-        df = pd.read_csv(path,sep=",", usecols=gps_cleaned_data_cols,encoding='utf-8')
+        df = pd.read_csv(path, sep=",", usecols=gps_cleaned_data_cols, encoding='utf-8')
         df['Time_stamp'] = pd.to_datetime(df['Time_stamp'], infer_datetime_format=True)
 
         name = path[-11:-4]
 
-        df = truck_position(df,name)
+        df = truck_position(df, name)
         new_df = df[df['logic'] == 1]
         new_df.reset_index(drop=True, inplace=True)
 
         new_df = travel_time_less_3(new_df)
 
-        final_df1,final_df2 = travel_time_information(new_df)
+        final_df1, final_df2 = travel_time_information(new_df)
 
-        fetch_gps_and_speed_infromation(config_path,final_df1,final_df2,df)
+        fetch_gps_and_speed_infromation(config_path, final_df1, final_df2, df)
 
-
-        fetch_route_information(config_path,final_df1,final_df2,name)
-
-
+        fetch_route_information(config_path, final_df1, final_df2, name)
 
 
 if __name__ == "__main__":

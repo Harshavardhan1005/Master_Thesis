@@ -62,12 +62,11 @@ def load_and_clean_gps_data(config_path):
                 df1 = df1.merge(df_raw, on='Time_stamp', how='left')
                 df1['lat'] = df1['lat'].interpolate().ffill().bfill()
                 df1['lon'] = df1['lon'].interpolate().ffill().bfill()
-                df1['WheelBasedVehicleSpeed'] = df1['WheelBasedVehicleSpeed'].fillna(0)
-
+                df1['WheelBasedVehicleSpeed'] = df1['WheelBasedVehicleSpeed'].interpolate().ffill().bfill()
                 final_df = pd.concat([final_df,df1])
 
         os.makedirs(gps_cleaned_data_path,exist_ok=True)
-        final_df.to_csv(gps_cleaned_data_path + '/' + str(file[-7:]) + '.csv', sep=",", index=False)
+        final_df.to_csv(gps_cleaned_data_path + '/' + str(file[-7:]) + '.csv', sep=",", date_format='%Y/%m/%d %H:%M:%S', index=False)
 
 
 if __name__ == "__main__":

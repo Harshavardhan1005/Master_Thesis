@@ -1,5 +1,7 @@
 import pandas as pd
+from statsmodels.graphics.tsaplots import plot_pacf
+import matplotlib.pyplot as plt
 
-df = pd.read_csv('gps_data/preprocessed_data/plant2-plant1/2021-09.csv')
-df['start_plant2']  = pd.to_datetime(df['start_plant2'])
-print(df.info())
+df = pd.read_csv('merged_data/train.csv')
+plot_pacf(df['travel_time'])
+

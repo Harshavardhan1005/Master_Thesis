@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import os
 import pandas as pd
 import numpy as np
@@ -9,18 +10,17 @@ import joblib
 import yaml
 import logging
 import warnings
-
 warnings.filterwarnings('ignore')
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
-
+# Function to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
-
+# Function to preprocess the data required by the hybrid model
 def preprocess_data_hybrid_model(config_path):
     config = read_params(config_path)
     test_data_path = config["split_data"]["test_path"]

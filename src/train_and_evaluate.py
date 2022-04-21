@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import os
 import pandas as pd
 import numpy as np
@@ -16,19 +17,19 @@ from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout
 from keras.preprocessing.sequence import TimeseriesGenerator
 import warnings
-
 warnings.filterwarnings('ignore')
-
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
 
+# Function to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# Function to evaluate the performance of the prediction
 def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
     mae = mean_absolute_error(actual, pred)
@@ -36,6 +37,7 @@ def eval_metrics(actual, pred):
     return rmse, mae, mape
 
 
+# Function to train and evaluate the model 
 def train_and_evaluate(config_path):
     config = read_params(config_path)
     test_data_path = config["split_data"]["test_path"]

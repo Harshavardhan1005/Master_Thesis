@@ -1,18 +1,19 @@
+# Import all the necessary libraries
 import os
-
 import pandas as pd
 import argparse
 import yaml
 from sklearn.model_selection import train_test_split
 
 
+# Function to read the config files
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
-
+# Function to split the data into train and test
 def merge_and_split_data(config_path):
     config = read_params(config_path)
     gps_data_path = config["load_data"]["gps_dataset_csv"]

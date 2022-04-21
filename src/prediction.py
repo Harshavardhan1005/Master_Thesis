@@ -1,3 +1,4 @@
+#Import all the necessary libraries
 import pandas as pd
 import yaml
 import json
@@ -7,7 +8,7 @@ import numpy as np
 params_path = "params.yaml"
 schema_path = "schema_in.json"
 
-
+# Class for handling the exceptions
 class NotInRange(Exception):
     def __init__(self, message="Values entered are not in expected range"):
         self.message = message

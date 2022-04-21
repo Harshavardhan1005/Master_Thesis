@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import os
 import yaml
 import pandas as pd
@@ -6,16 +7,17 @@ import numpy as np
 from ast import literal_eval
 from tqdm import tqdm
 import argparse
-
 tqdm.pandas(desc="Progress!")
 
 
+# Function to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# Function to get the weather data
 def store_weather_data(config_path):
     config = read_params(config_path)
     start = config["data_source"]["weather_start"]
@@ -35,7 +37,8 @@ def store_weather_data(config_path):
     os.makedirs(weather_raw_data_path, exist_ok=True)
     df_weather.to_csv(weather_raw_data_source_path, index=False)
 
-
+    
+# Function to clean the weather data
 def clean_weather_data(config_path):
     config = read_params(config_path)
     #store_weather_data(config_path=config_path)
@@ -113,7 +116,8 @@ def clean_weather_data(config_path):
     os.makedirs(weather_cleaned_data_path, exist_ok=True)
     final_weather.to_csv(weather_cleaned_data_source_path, index=False)
 
-
+    
+# Function to preprocess the weather data
 def preprocess_weather_data(config_path):
     clean_weather_data(config_path)
     config = read_params(config_path)

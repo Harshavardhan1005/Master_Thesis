@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import os
 import yaml
 import pandas as pd
@@ -6,15 +7,18 @@ from glob import glob
 from tqdm import tqdm
 import argparse
 
+# to visualize the progress bar in pandas
 tqdm.pandas(desc="Progress!")
 
 
+# Function to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# Function to load the FMS data into dataframe
 def load_fms_data(config_path):
     config = read_params(config_path)
 
@@ -27,6 +31,7 @@ def load_fms_data(config_path):
     return df_fms
 
 
+# Function to fetch the GPS data and convert into structured format
 def load_and_clean_gps_data(config_path):
     config = read_params(config_path)
 

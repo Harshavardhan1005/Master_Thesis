@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import argparse
 import mlflow
 import pandas as pd
@@ -6,16 +7,17 @@ from pprint import pprint
 import joblib
 import yaml
 import warnings
-
 warnings.filterwarnings('ignore')
 
 
+# Function to read the config file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# Function to compare the metrics of all the models and use the model that is having low MAPE is selected for prediction
 def log_final_model(config_path):
     config = read_params(config_path)
     df = pd.DataFrame(columns=['Model_Source', 'Score'])

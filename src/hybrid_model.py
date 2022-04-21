@@ -1,3 +1,4 @@
+# Import all the necessary libraries
 import pandas as pd
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
@@ -7,20 +8,20 @@ import mlflow
 import yaml
 import logging
 from urllib.parse import urlparse
-
 import warnings
 warnings.filterwarnings('ignore')
-
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
 
+# FUnction to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# FUnction that get the actual and predicted values and then find the RMSE, MAE and MAPE scores.
 def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
     mae = mean_absolute_error(actual, pred)
@@ -28,6 +29,7 @@ def eval_metrics(actual, pred):
     return rmse, mae, mape
 
 
+# Function module that train the hybrid models using MLflow
 def train_hybrid_model(config_path):
     config = read_params(config_path)
     target = [config["base"]["target_col"]]

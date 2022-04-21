@@ -1,17 +1,17 @@
+# Import all the necessary libraries
 import os
-
 import yaml
 import pandas as pd
 from glob import glob
 import argparse
 
-
+# Function to read the config file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
-
+# Function to merge the GPS data 
 def merge_gps_data(config_path):
     config = read_params(config_path)
     gps_preprocessed_data2 = config["data_source"]["gps_preprocessed_data2"]

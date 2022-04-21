@@ -1,3 +1,4 @@
+# Import all the neccesary libraries 
 import yaml
 import pandas as pd
 import os
@@ -8,18 +9,17 @@ from glob import glob
 from tqdm import tqdm
 import argparse
 import warnings
-
 warnings.filterwarnings('ignore')
-
 tqdm.pandas(desc="Progress!")
 
-
+# Function to read the configuration file
 def read_params(config_path):
     with open(config_path) as yaml_file:
         config = yaml.safe_load(yaml_file)
     return config
 
 
+# Function to track the position of the truck
 def truck_position(df, name):
     plant_1 = Polygon([(9.489763, 47.660213), (9.491629, 47.661182), (9.492552, 47.660907), (9.494827, 47.660633),
                        (9.497251, 47.658797), (9.490556, 47.655126), (9.487123, 47.653854), (9.483626, 47.655834),
@@ -141,6 +141,7 @@ def travel_time_information(new_df):
     return final_df1, final_df2
 
 
+# Function to get the GPS and Speed inforamtion of the travel time
 def fetch_gps_and_speed_infromation(config_path, final_df1, final_df2, df):
     print('*****************************************************************************************************')
     print('Fetching GPS and Speed Information')
@@ -166,7 +167,7 @@ def fetch_gps_and_speed_infromation(config_path, final_df1, final_df2, df):
     final_df2['Average_Speed'] = final_df2['speed_2_1'].progress_apply(
         lambda x: np.mean([i for i in x]))
 
-
+# Function to find the route information taken by the truck
 def fetch_route_information(config_path, final_df1, final_df2, name):
     config = read_params(config_path)
     gps_preprocessed_data1_path = config["data_source"]["gps_preprocessed_data1"]
@@ -226,7 +227,7 @@ def fetch_route_information(config_path, final_df1, final_df2, name):
     final_df1.to_csv(gps_preprocessed_data1_path + '/' + str(name) + '.csv', sep=",", index=False)
     final_df2.to_csv(gps_preprocessed_data2_path + '/' + str(name) + '.csv', sep=",", index=False)
 
-
+# Function to preprocess the GPS data
 def preprocess_gps_data(config_path):
     config = read_params(config_path)
 

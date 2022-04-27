@@ -26,7 +26,7 @@ def merge_and_split_data(config_path):
 
     df_gps = pd.read_csv(gps_data_path)
     df_weather = pd.read_csv(weather_data_path)
-
+    # All the trip travel time is combine and named as start_plant_2 in merge and split scripts
     df_weather['Timestamp'] = pd.to_datetime(df_weather['Timestamp'])
     df_gps['start_plant2'] = pd.to_datetime(df_gps['start_plant2'])
 

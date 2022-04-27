@@ -69,6 +69,7 @@ def truck_position(df, name):
 
     return df
 
+# Function to remove the trips haviung less than 3 minutes
 
 def travel_time_less_3(new_df):
     indexes = []

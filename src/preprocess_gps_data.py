@@ -200,6 +200,8 @@ def fetch_route_information(config_path, final_df1, final_df2, name):
             elif route_1.contains(Point(final_df2['GPS_2_1_lon'][index][i], final_df2['GPS_2_1_lat'][index][i])):
                 routes_2_1.append(1)
                 break
+            else:
+                print('The trucks is not travelled in the above four routes, plot or visualize the route')
 
     for index, row in final_df1.iterrows():
         for i in range(len(final_df1['GPS_1_2_lat'][index])):
@@ -215,6 +217,8 @@ def fetch_route_information(config_path, final_df1, final_df2, name):
             elif route_1.contains(Point(final_df1['GPS_1_2_lon'][index][i], final_df1['GPS_1_2_lat'][index][i])):
                 routes_1_2.append(1)
                 break
+            else:
+                print('The trucks is not travelled in the above four routes, plot or verify the route')
 
     final_df2['route_2_1'] = routes_2_1
     final_df1['route_1_2'] = routes_1_2

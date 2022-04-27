@@ -80,18 +80,18 @@ rf_lstm_model_dir: models/rf_lstm_model.joblib
 xgb_lstm_model_dir: models/xgb_lstm_model.joblib
 
 mlflow_config:
-  artifacts_dir: artifacts
+  artifacts_dir: artifacts                                     #standard 
   experiment_name1: Forecasting Trucks Travel Time (Random Forest)
   experiment_name2: Forecasting Trucks Travel Time (XGBoost)
   experiment_name3: Forecasting Trucks Travel Time (LSTM)
   experiment_name4: Forecasting Trucks Travel Time (Hybrid1)
   experiment_name5: Forecasting Trucks Travel Time (Hybrid2)
   experiment_name6: Forecasting Trucks Travel Time (Hybrid3)
-  run_name: mlops
+  run_name: mlops                                               #standard 
   registered_model_name1: RandomForest_forecasting_model
   registered_model_name2: XGBoost_forecasting_model
   registered_model_name3: LSTM_forecasting_model
   registered_model_name4: RF_LSTM_forecasting_model
   registered_model_name5: XGB_LSTM_forecasting_model
   registered_model_name6: RF_XGB_forecasting_model
-  remote_server_uri: http://0.0.0.0:1234
+  remote_server_uri: http://0.0.0.0:1234                         #standard 

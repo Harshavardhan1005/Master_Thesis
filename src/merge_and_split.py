@@ -23,6 +23,7 @@ def merge_and_split_data(config_path):
     random_state = config["base"]["random_state"]
     split_ratio = config["split_data"]["test_size"]
     data_merge = config["data_source"]["data_merge"]
+    final_data_cols = config["data_source"]["final_data_cols"]
 
     df_gps = pd.read_csv(gps_data_path)
     df_weather = pd.read_csv(weather_data_path)
@@ -35,7 +36,7 @@ def merge_and_split_data(config_path):
 
     merge_df = pd.merge(df_gps,df_weather,on='time')
 
-    merge_df = merge_df[['Week_Day','Week','Hour','Minutes','Seconds','Average_Speed','Clouds','Temp','Wind_deg','Wind_speed','Rain_1h','Rain_3h','Snow_1h','Snow_3h','travel_time']]
+    merge_df = merge_df[final_data_cols]
     merge_df = merge_df.round(1)
 
     train, test = train_test_split(

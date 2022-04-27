@@ -1,3 +1,5 @@
+#For getting the weather data from API, uncomment the 'Store data' in the function 'clean_weather_data', this should be uncomment only once and later times, comment the funciton(line) in order to duplicate the data or to reduce the API call's
+
 # Import all the necessary libraries
 import os
 import yaml

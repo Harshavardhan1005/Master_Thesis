@@ -58,7 +58,7 @@ Project Organization
 
 ![Tests](https://github.com/Harshavardhan1005/Master_Thesis/actions/workflows/ci-cd.yaml/badge.svg)
 
-''' bash
+'''bash
 mlflow server \
     --backend-store-uri /mnt/persistent-disk \
     --default-artifact-root s3://my-mlflow-bucket/ \
